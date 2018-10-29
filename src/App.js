@@ -41,18 +41,31 @@ class App extends Component {
   _handleSearchOnChange = event => {
     const searchTerm = event.target.value.toLowerCase();
     this.setState({ searchTerm });
-    this._fetchData(searchTerm);
+  };
+
+  // class methods are not bound by default
+  _handleSearchOnClick = () => {
+    // console.log(this); // bind method name to this class
+    this._fetchData(this.state.searchTerm);
+  };
+
+  _handleSearchOnKeyPress = event => {
+    if (event.key === "Enter") {
+      this._fetchData(this.state.searchTerm);
+    }
   };
 
   _renderSearchBar() {
     return (
       <div>
-        Search Author:{" "}
+        Enter Author Name:{" "}
         <input
           type="text"
           value={this.state.searchTerm}
           onChange={this._handleSearchOnChange}
+          onKeyPress={this._handleSearchOnKeyPress}
         />
+        <button onClick={this._handleSearchOnClick}>Search</button>
       </div>
     );
   }
